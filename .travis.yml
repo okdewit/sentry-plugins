@@ -34,8 +34,6 @@ matrix:
     - python: 2.7
       install:
         - 'export PATH=$PATH:~/.bin'
-        - rvm install 2.2.5
-        - rvm use 2.2.5
         - nvm install $TRAVIS_NODE_VERSION
         - npm install -g "yarn@${YARN_VERSION}"
         - make install-tests
