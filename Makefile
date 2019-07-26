@@ -36,6 +36,7 @@ clean:
 
 lint: lint-js lint-python
 
+# TODO (joshuarli): move flake8 to pre-commit, keep backwards compat for lint-python
 lint-python:
 	@echo "--> Linting python"
 	bash -eo pipefail -c "flake8 | tee .artifacts/flake8.pycodestyle.log"
