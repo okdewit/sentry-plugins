@@ -35,6 +35,8 @@ matrix:
         - 'export PATH=$PATH:~/.bin'
         - nvm install $TRAVIS_NODE_VERSION
         - npm install -g "yarn@${YARN_VERSION}"
+        # trusty comes with pyenv-managed 2.7 and 3.6 - we need python3.6 on the PATH for pre-commit to install black during 2.7 tests.
+        - pyenv global 3.6.3 2.7.14
         - make install-tests
         - python -m pip install codecov
         - pip freeze
@@ -46,6 +48,7 @@ matrix:
         - psql -c 'create database sentry;' -U postgres
       script:
         - make lint
+        - pre-commit run -a
         - py.test --cov . --cov-report="xml:.artifacts/coverage.xml" --junit-xml=".artifacts/junit.xml" --html="artifacts/pytest.html" || exit 1
       after_success:
         - codecov -e TEST_SUITE
