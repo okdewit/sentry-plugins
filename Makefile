@@ -3,7 +3,7 @@ UNAME_S := $(shell uname -s)
 
 develop: ensure-pip-version setup-git install-yarn
 	pip install -e git+https://github.com/getsentry/sentry.git#egg=sentry[dev,optional]
-	pip install -e ".[tests]"
+	pip install --no-use-pep517 -e ".[tests]"
 	yarn install
 
 ensure-pip-version:
@@ -25,7 +25,7 @@ install-yarn:
 	NODE_ENV=development yarn install --ignore-optional
 
 install-tests: develop
-	pip install .[tests]
+	pip install --no-use-pep517 .[tests]
 
 clean:
 	@echo "--> Cleaning static cache"

@@ -5,9 +5,11 @@ Extensions for Sentry.
 
 Install the package via ``pip``::
 
-    pip install sentry-plugins
+    pip install --no-use-pep517 sentry-plugins
 
-Run migrations after installation is complete
+The :code:`--no-use-pep517` applies to pip >= 19, since pep517-compliant pip `doesn't work well with sentry's setup.py <https://github.com/getsentry/getsentry/pull/3074/>`_. This may be fixed in the future.
+
+Run migrations after installation is complete::
 
     sentry upgrade
 
