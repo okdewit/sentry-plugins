@@ -3,7 +3,6 @@ sudo: required
 dist: bionic
 services:
   - memcached
-  - postgresql
   - redis-server
 
 cache:
@@ -14,6 +13,7 @@ cache:
     - $HOME/.cache/pre-commit
 
 addons:
+  postgresql: "9.6"
   apt:
     update: true
     sources:
