@@ -1,20 +1,13 @@
 SENTRY_PATH := `python -c 'import sentry; print sentry.__file__.rsplit("/", 3)[0]'`
 UNAME_S := $(shell uname -s)
 
-develop: setup-git install-yarn
-	pip install "pip>=9,<10"
+develop: ensure-pip-version setup-git install-yarn
 	pip install -e git+https://github.com/getsentry/sentry.git#egg=sentry[dev,optional]
 	pip install -e ".[tests]"
 	yarn install
 
-install-yarn:
-	@echo "--> Installing Node dependencies"
-	@hash yarn 2> /dev/null || npm install -g yarn
-	# Use NODE_ENV=development so that yarn installs both dependencies + devDependencies
-	NODE_ENV=development yarn install --ignore-optional
-
-install-tests: develop
-	pip install .[tests]
+ensure-pip-version:
+	pip install "pip>=19.2.1,<20"
 
 setup-git:
 	@echo "--> Installing git hooks"
@@ -24,6 +17,15 @@ setup-git:
 	pip install "pre-commit>=1.10.1,<1.11.0"
 	pre-commit install --install-hooks
 	@echo ""
+
+install-yarn:
+	@echo "--> Installing Node dependencies"
+	@hash yarn 2> /dev/null || npm install -g yarn
+	# Use NODE_ENV=development so that yarn installs both dependencies + devDependencies
+	NODE_ENV=development yarn install --ignore-optional
+
+install-tests: develop
+	pip install .[tests]
 
 clean:
 	@echo "--> Cleaning static cache"
