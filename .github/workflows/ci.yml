@@ -25,9 +25,8 @@ jobs:
       run: |
         sudo apt-get install -y libxmlsec1-dev libgeoip-dev
         CHROME_MAJOR_VERSION="$(dpkg -s google-chrome-stable | sed -nr 's/Version: ([0-9]+).*/\1/p')"
-        wget -N "https://chromedriver.storage.googleapis.com/$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_MAJOR_VERSION})/chromedriver_linux64.zip" -P ~/
+        wget -q "https://chromedriver.storage.googleapis.com/$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_MAJOR_VERSION})/chromedriver_linux64.zip" -P ~/
         unzip ~/chromedriver_linux64.zip -d ~/
-        rm ~/chromedriver_linux64.zip
         sudo install -m755 ~/chromedriver /usr/local/bin/
     # TODO: how to get the sha of the latest pushed commit?
     - uses: actions/checkout@master
@@ -35,7 +34,7 @@ jobs:
       env:
         YARN_VERSION: '1.13.0'
       run: |
-        npm install -g "yarn@{YARN_VERSION}"
+        npm install -g "yarn@${YARN_VERSION}"
     - uses: actions/setup-python@v1
       with:
         version: ${{ matrix.python }}
