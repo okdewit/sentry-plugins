@@ -30,6 +30,9 @@ jobs:
         sudo install -m755 ~/chromedriver /usr/local/bin/
     # TODO: how to get the sha of the latest pushed commit?
     - uses: actions/checkout@master
+    - uses: actions/setup-node@v1
+      with:
+        version: ${{ matrix.node }}
     - name: Install Dependencies (node)
       env:
         YARN_VERSION: '1.13.0'
