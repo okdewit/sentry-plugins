@@ -45,6 +45,7 @@ jobs:
     - name: Install Dependencies (python)
       env:
         PYTHON_PIP_VERSION: '19.1.1'
+        PIP_USE_PEP517: off
         PIP_DISABLE_PIP_VERSION_CHECK: on
       run: |
         python -m pip install "pip==${PYTHON_PIP_VERSION}"
