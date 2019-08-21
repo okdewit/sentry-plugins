@@ -19,7 +19,7 @@ install-yarn:
 	NODE_ENV=development yarn install --ignore-optional
 
 install-tests: develop
-	pip install ".[tests]" $(PIP_OPTS) $(PIP_OPTS)
+	pip install ".[tests]" $(PIP_OPTS)
 
 setup-git:
 	@echo "--> Installing git hooks"
