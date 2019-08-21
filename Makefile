@@ -1,13 +1,16 @@
 SENTRY_PATH := `python -c 'import sentry; print sentry.__file__.rsplit("/", 3)[0]'`
 UNAME_S := $(shell uname -s)
 
+PIP_VERSION := 19.1.1
 PIP_OPTS := --no-use-pep517 --disable-pip-version-check
 
-develop: setup-git install-yarn
-	pip install "pip>=9,<10"
+develop: ensure-pip setup-git install-yarn
 	pip install -e git+https://github.com/getsentry/sentry.git#egg=sentry[dev,optional] $(PIP_OPTS)
 	pip install -e ".[tests]" $(PIP_OPTS)
 	yarn install
+
+ensure-pip:
+	pip install "pip==$(PIP_VERSION)"
 
 install-yarn:
 	@echo "--> Installing Node dependencies"
