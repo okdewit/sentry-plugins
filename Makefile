@@ -1,16 +1,17 @@
 SENTRY_PATH := `python -c 'import sentry; print sentry.__file__.rsplit("/", 3)[0]'`
 UNAME_S := $(shell uname -s)
 
+PIP := python -m pip
 PIP_VERSION := 19.1.1
 PIP_OPTS := --no-use-pep517 --disable-pip-version-check
 
 develop: ensure-pip setup-git install-yarn
-	pip install -e git+https://github.com/getsentry/sentry.git#egg=sentry[dev,optional] $(PIP_OPTS)
-	pip install -e ".[tests]" $(PIP_OPTS)
+	$(PIP) install $(PIP_OPTS) -e git+https://github.com/getsentry/sentry.git#egg=sentry[dev,optional]
+	$(PIP) install $(PIP_OPTS) -e ".[tests]"
 	yarn install
 
 ensure-pip:
-	pip install "pip==$(PIP_VERSION)"
+	$(PIP) install "pip==$(PIP_VERSION)"
 
 install-yarn:
 	@echo "--> Installing Node dependencies"
@@ -19,14 +20,14 @@ install-yarn:
 	NODE_ENV=development yarn install --ignore-optional
 
 install-tests: develop
-	pip install ".[tests]" $(PIP_OPTS)
+	$(PIP) install $(PIP_OPTS) ".[tests]"
 
 setup-git:
 	@echo "--> Installing git hooks"
 	git config branch.autosetuprebase always
 	git config core.ignorecase false
 	cd .git/hooks && ln -sf ../../config/hooks/* ./
-	pip install "pre-commit>=1.10.1,<1.11.0" $(PIP_OPTS)
+	$(PIP) install $(PIP_OPTS) "pre-commit>=1.10.1,<1.11.0"
 	pre-commit install --install-hooks
 	@echo ""
 
